@@ -14,9 +14,15 @@ class TaskController extends Controller
     public function index(Request $request){
         $tasks = $request->user()->isAdmin()
             ? Task::all()
-            : $request->user()->tasks
+            : $request->user()->tasks;
 
         return response()->json($tasks);
+    }
+
+    public function show(Task $task){
+        $this->authorize('view', $task);
+
+        return response()->json($task);
     }
 
     public function store(StoreTaskRequest $request){
@@ -25,13 +31,7 @@ class TaskController extends Controller
         return response()->json([
             'message' => 'Task created successfully',
             'task_info' => $task,
-        ], 201)
-    }
-
-    public function show(Task $task){
-        $this->authorize('view', $task);
-
-        return response()->json($task);
+        ], 201);
     }
 
     public function update(UpdateTaskRequest $request, Task $task){

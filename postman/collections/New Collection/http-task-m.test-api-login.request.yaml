@@ -1,0 +1,15 @@
+$kind: http-request
+name: http://task-m.test/api/login
+description: ""
+url: http://task-m.test/api/login
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"email\": \"test@example.com\",\r
+
+    \    \"password\": \"password123\"\r
+
+    }"
+order: 4352280218069593

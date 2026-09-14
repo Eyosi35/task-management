@@ -3,6 +3,21 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AdminController;
+
+Route::post('/register', [RegisterController::class, 'store']);
+Route::post('/login', [LoginController::class, 'store']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [LoginController::class, 'destroy']);
+    
+    Route::get('/me', function (Request $request) {
+        return response()->json($request->user());
+    });
+
+    Route::apiResource('tasks', TaskController::class);
+    Route::get('/admin/tasks', [AdminController::class, 'tasks']);    
+});

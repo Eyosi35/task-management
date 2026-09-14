@@ -1,0 +1,19 @@
+$kind: http-request
+name: http://task-m.test/api/register
+description: ""
+url: http://task-m.test/api/register
+method: POST
+body:
+  type: json
+  content: "   {\r
+
+    \       \"name\": \"Test User 3\",\r
+
+    \       \"email\": \"test3@example.com\",\r
+
+    \       \"password\": \"password1233\",\r
+
+    \       \"password_confirmation\": \"password1233\"\r
+
+    \   }"
+order: 3924036714373628

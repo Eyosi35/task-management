@@ -2,15 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\RegisterStoreRequest;
 
 class RegisterController extends Controller
 {
-    public function register(){
-        return view('auth.register');
+    public function store(RegisterStoreRequest $request){
+        $validatedAtt = $request->validated();
+
+        $user = User::create([
+            'name' => $validatedAtt['name'],
+            'email' => $validatedAtt['email'],
+            'password' => Hash::make($validatedAtt['password']),
+            'role' => 'user',
+        ]);
+
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'User registered Successfully',
+            'user' => $user,
+            'token' => $token,
+        ],201);
     }
 
-    public function store(){
-        
-    }
 }

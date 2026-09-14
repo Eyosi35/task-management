@@ -1,0 +1,12 @@
+$kind: http-request
+name: http://task-m.test/api/me
+description: ""
+url: http://task-m.test/api/me
+method: GET
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: 4|gxdHstFHpf6KL9a4HEhXfsvc2jRUIXy5fXtcNUdCdeeaba74
+order: 3963175614324053
