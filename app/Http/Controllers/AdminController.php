@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illumincate\Support\Facades\Gate;
+
+use App\Http\Resources\AdminTaskResource;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Task;
+
 
 class AdminController extends Controller
 {
@@ -17,7 +20,7 @@ class AdminController extends Controller
 
         $tasks = Task::with('user:id,name,email')->get();
 
-        return response()->json($tasks);
+        return response()->json(new AdminTaskResource::collection($tasks));
     }
     
 

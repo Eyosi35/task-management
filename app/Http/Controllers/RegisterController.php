@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterStoreRequest;
 
@@ -23,7 +24,7 @@ class RegisterController extends Controller
 
         return response()->json([
             'message' => 'User registered Successfully',
-            'user' => $user,
+            'user' => new UserResource($user),
             'token' => $token,
         ],201);
     }

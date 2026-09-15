@@ -7,22 +7,27 @@ use App\Models\Task;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Resource\TaskResource;
+use App\Http\Resource\AdminTaskResource;
+
 
 
 class TaskController extends Controller
 {
     public function index(Request $request){
-        $tasks = $request->user()->isAdmin()
-            ? Task::all()
-            : $request->user()->tasks;
+        $user = $request->user()->isAdmin();
 
-        return response()->json($tasks);
+        if($user){
+            return response()->json(AdminTaskResource::collection(Task::all()));
+        }
+
+        return response()->json(TaskResource::collection($user->$tasks));
     }
 
     public function show(Task $task){
         $this->authorize('view', $task);
 
-        return response()->json($task);
+        return response()->json(new TaskResource($task));
     }
 
     public function store(StoreTaskRequest $request){
@@ -30,7 +35,7 @@ class TaskController extends Controller
 
         return response()->json([
             'message' => 'Task created successfully',
-            'task_info' => $task,
+            'task_info' => new TaskResource($task),
         ], 201);
     }
 
@@ -41,7 +46,7 @@ class TaskController extends Controller
 
         return response()->json([
             'message' => 'Task Updated Successfully',
-            'task' => $task,
+            'task' => new TaskResource($task),
         ]);
     }
 

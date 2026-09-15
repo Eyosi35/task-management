@@ -20,12 +20,5 @@ class RegisterStoreRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            'name' => ['required', 'string', 'max:35'],
-            'email' => ['required', 'string' ,'email', 'unique:users', 'max:255'],
-            'password' => ['required', 'min:8', 'confirmed'],
-        ];
-    }
+    t
 }
