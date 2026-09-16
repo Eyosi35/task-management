@@ -9,7 +9,8 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AdminController;
 
 Route::post('/register', [RegisterController::class, 'store']);
-Route::post('/login', [LoginController::class, 'store']);
+Route::post('/login', [LoginController::class, 'store'])
+->middleware('throttle:login');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LoginController::class, 'destroy']);
@@ -18,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return response()->json($request->user());
     });
 
-    Route::apiResource('tasks', TaskController::class);
+    Route::apiResource('tasks', TaskController::class)
+        ->middleware('throttle:task_requests');
     Route::get('/admin/tasks', [AdminController::class, 'tasks']);    
 });

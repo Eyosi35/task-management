@@ -7,8 +7,8 @@ use App\Models\Task;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
-use App\Http\Resource\TaskResource;
-use App\Http\Resource\AdminTaskResource;
+use App\Http\Resources\TaskResource;
+use App\Http\Resources\AdminTaskResource;
 
 
 
@@ -21,7 +21,8 @@ class TaskController extends Controller
             return response()->json(AdminTaskResource::collection(Task::all()));
         }
 
-        return response()->json(TaskResource::collection($user->$tasks));
+        $user = $request->user();
+        return response()->json(TaskResource::collection($user->tasks));
     }
 
     public function show(Task $task){
@@ -56,7 +57,7 @@ class TaskController extends Controller
         $task->delete();
 
         return response()->json([
-            'message' => 'Task Deleted Successfully',
+            'message' => 'Task deleted Successfully',
         ]);
     }
 }

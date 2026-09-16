@@ -3,8 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use App\Models\User;
+
 
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +28,16 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::define('admin-task', function($user){
             return $user->isAdmin();
+        });
+        
+        RateLimiter::for('login', function(Request $request){
+            return Limit::perMinute(5)
+                ->by($request->ip());
+        });
+
+        RateLimiter::for('task_requests', function(Request $request){
+            return Limit::perMinute(60)
+                ->by($request->user()->id);
         });
     }
 }

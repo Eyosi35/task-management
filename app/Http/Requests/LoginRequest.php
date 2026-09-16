@@ -33,6 +33,6 @@ class LoginRequest extends FormRequest
         return[
             'email.required' => "The email field is required",
             'password.required' => "Password feild is necessary to login"
-        ]
+        ];
     }
 }
