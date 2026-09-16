@@ -20,9 +20,6 @@ class AdminController extends Controller
 
         $tasks = Task::with('user:id,name,email')->get();
 
-        return response()->json(new AdminTaskResource::collection($tasks));
+        return response()->json(AdminTaskResource::collection($tasks));
     }
-    
-
-    
 }

@@ -47,7 +47,7 @@ class TaskController extends Controller
 
         return response()->json([
             'message' => 'Task Updated Successfully',
-            'task' => new TaskResource($task),
+            'updated_task' => new TaskResource($task),
         ]);
     }
 

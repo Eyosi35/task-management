@@ -22,10 +22,10 @@ class AdminTaskResource extends JsonResource
             "due_date" => $this->due_date,
             "status" => $this->status,
             "owner" => [
-                'id'->$this->user->id,
-                'name'->$this->user->name;
-                'email'->$this->user->email;
-            ]
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'email' => $this->user->email,
+            ],
         ];
     }
 }
