@@ -45,10 +45,18 @@ class TaskController extends Controller
 
         $task->update($request->validated());
 
+        if($request->user()->isAdmin()){
+            return response()->json([
+                'message' => "You have updated the user's Task successfully",
+                'updated_task' => new AdminTaskResource($task),
+            ]);
+        }
+
         return response()->json([
-            'message' => 'Task Updated Successfully',
+            'message' => "Task updated successfully",
             'updated_task' => new TaskResource($task),
         ]);
+        
     }
 
     public function destroy(Task $task){

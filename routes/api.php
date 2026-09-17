@@ -21,5 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('tasks', TaskController::class)
         ->middleware('throttle:task_requests');
-    Route::get('/admin/tasks', [AdminController::class, 'tasks']);    
+
+    Route::apiResource('admin/tasks', AdminController::class)
+        ->only(['index','destroy']);
 });
