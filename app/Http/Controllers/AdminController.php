@@ -8,6 +8,7 @@ use App\Http\Resources\AdminTaskResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Task;
+use App\Models\User;
 
 
 class AdminController extends Controller
@@ -37,6 +38,21 @@ class AdminController extends Controller
         return response()->json([
             'message' => "User's task deleted Successfully",
             'user' => new UserResource($user)
+        ]);
+    }
+
+    public function destroyUser(User $user){
+        if(Gate::denies('admin-task')){
+            return response()->json([
+                'message' => 'Forbidden Request',
+            ],403);
+        }
+
+        $user->tokens()->delete();
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User deleted successfully'
         ]);
     }
 }

@@ -24,4 +24,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('admin/tasks', AdminController::class)
         ->only(['index','destroy']);
+    
+    Route::delete('/admin/user/{user}/', [AdminController::class, 'destroyUser']);
 });
