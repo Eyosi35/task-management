@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Task;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\AdminTaskResource;
-
-
+use  Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function index(Request $request){
-        $user = $request->user()->isAdmin();
+    public function index(Request $request)
+    {
+        $this->authorize('viewAny', Task::class);
 
-        if($user){
+        if(Gate::allows('admin-task')){
             return response()->json(AdminTaskResource::collection(Task::all()));
         }
 
@@ -32,6 +33,8 @@ class TaskController extends Controller
     }
 
     public function store(StoreTaskRequest $request){
+        $this->authorize('create', Task::class);
+
         $task = $request->user()->tasks()->create($request->validated());
 
         return response()->json([
@@ -45,9 +48,9 @@ class TaskController extends Controller
 
         $task->update($request->validated());
 
-        if($request->user()->isAdmin()){
+        if(Gate::allows('admin-task')){
             return response()->json([
-                'message' => "You have updated the user's Task successfully",
+                'message' => "You have updated the user's task successfully",
                 'updated_task' => new AdminTaskResource($task),
             ]);
         }
@@ -56,7 +59,6 @@ class TaskController extends Controller
             'message' => "Task updated successfully",
             'updated_task' => new TaskResource($task),
         ]);
-        
     }
 
     public function destroy(Task $task){
@@ -64,8 +66,6 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return response()->json([
-            'message' => 'Task deleted Successfully',
-        ]);
+        return response()->json(['message' => 'Task deleted Successfully']);
     }
 }

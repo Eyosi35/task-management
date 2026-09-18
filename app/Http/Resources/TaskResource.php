@@ -14,22 +14,6 @@ class TaskResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        if($request->user()->isAdmin()) {
-            return [
-                "id" => $this->id,
-                "title" => $this->title,
-                "description" => $this->description,
-                "created_at" => $this->created_at,
-                "due_date" => $this->due_date,
-                "status" => $this->status,
-                "owner" => [
-                    'id' => $this->user->id,
-                    'name' => $this->user->name,
-                    'email' => $this->user->email,
-                ],
-            ];
-        }
-
         return [
             "id" => $this->id,
             "title" => $this->title,

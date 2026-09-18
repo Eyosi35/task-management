@@ -5,8 +5,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Database\Seeder\AdminSeeder;
-use App\Database\Seeder\TaskSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             AdminSeeder::class,
-            TaskSeeder::Class,
+            TaskSeeder::class,
         ]);
     }
 }
